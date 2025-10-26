@@ -4,6 +4,37 @@
 <img  width="900px" height="500px" src="./public/base-stack.png" />
 </p>
 
+# Update from upstream template Forge 42 base-stack
+
+Обновления из оригинального forge-42/base-stack принято делать вручную:
+
+Временно инициализируешь git для апстрима:
+
+cd apps/site
+git init
+git remote add upstream https://github.com/forge-42/base-stack.git
+git fetch upstream
+git merge upstream/main
+
+
+После мержа изменений можно удалить временный .git снова:
+
+rm -rf .git
+cd ../../
+
+
+✅ Результат:
+
+apps/site — обычная папка в монорепо.
+
+Git больше не ругается.
+
+Можно коммитить и пушить весь монорепо единым git.
+
+Fetch из upstream делается вручную, когда нужно.
+
+Основной workflow работы с monorepo остается не обременен git submodules, что оправдано т.к. изменения в forge-42/base-stack происходят редко
+
 # Welcome to Forge 42 base-stack
 
 This is a base-stack for Forge 42 projects. This stack is a starting point for all Forge 42 stacks with more
