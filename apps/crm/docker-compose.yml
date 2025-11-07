@@ -1,0 +1,123 @@
+version: "3.9"
+
+services:
+  # ========================
+  # Traefik Reverse Proxy (общий)
+  # ========================
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.permanent=true
+      - --certificatesresolvers.myresolver.acme.tlschallenge=true
+      - --certificatesresolvers.myresolver.acme.email=${YOUR_EMAIL}
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      - ${TRAFFIC_TLS_COMMANDS:-} # override для локалки
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - ./letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: always
+
+  # ========================
+  # PostgreSQL Database (общий)
+  # ========================
+  postgres:
+    image: postgres:18
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
+  # ========================
+  # EspoCRM Web (общий)
+  # ========================
+  espocrm:
+    image: espocrm/espocrm:latest
+    container_name: espocrm
+    environment:
+      ESPOCRM_DATABASE_PLATFORM: Postgresql
+      ESPOCRM_DATABASE_HOST: postgres
+      ESPOCRM_DATABASE_USER: ${POSTGRES_USER}
+      ESPOCRM_DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      ESPOCRM_DATABASE_NAME: ${POSTGRES_DB}
+      ESPOCRM_ADMIN_USERNAME: ${ESPOCRM_ADMIN_USERNAME}
+      ESPOCRM_ADMIN_PASSWORD: ${ESPOCRM_ADMIN_PASSWORD}
+      ESPOCRM_SITE_URL: https://${ESPOCRM_SITE_URL}
+    volumes:
+      - espocrm_data:/var/www/html
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.espocrm.rule=Host(`${ESPOCRM_SITE_URL}`)
+      - traefik.http.routers.espocrm.entrypoints=websecure
+      - traefik.http.routers.espocrm.tls=true
+      - traefik.http.routers.espocrm.tls.certresolver=myresolver
+
+  # ========================
+  # EspoCRM Background Jobs (общий)
+  # ========================
+  espocrm-daemon:
+    image: espocrm/espocrm:latest
+    container_name: espocrm-daemon
+    volumes:
+      - espocrm_data:/var/www/html
+    restart: always
+    entrypoint: docker-daemon.sh
+
+  # ========================
+  # EspoCRM WebSocket (общий)
+  # ========================
+  espocrm-websocket:
+    image: espocrm/espocrm:latest
+    container_name: espocrm-websocket
+    environment:
+      ESPOCRM_CONFIG_USE_WEB_SOCKET: "true"
+      ESPOCRM_CONFIG_WEB_SOCKET_URL: "wss://${ESPOCRM_SITE_URL}/ws"
+      ESPOCRM_CONFIG_WEB_SOCKET_ZERO_M_Q_SUBSCRIBER_DSN: "tcp://*:7777"
+      ESPOCRM_CONFIG_WEB_SOCKET_ZERO_M_Q_SUBMISSION_DSN: "tcp://espocrm-websocket:7777"
+    volumes:
+      - espocrm_data:/var/www/html
+    restart: always
+    entrypoint: docker-websocket.sh
+
+  # ========================
+  # Whoami (debug) - профиль local
+  # ========================
+  whoami:
+    image: traefik/whoami
+    profiles:
+      - local
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.whoami.rule=Host(`whoami.${ESPOCRM_SITE_URL}`)
+      - traefik.http.routers.whoami.entrypoints=websecure
+      - traefik.http.routers.whoami.tls=true
+      - traefik.http.routers.whoami.tls.certresolver=myresolver
+
+volumes:
+  postgres_data:
+  espocrm_data:
