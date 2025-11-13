@@ -133,10 +133,10 @@ ESPOCRM_ADMIN_USERNAME=admin
 ESPOCRM_ADMIN_PASSWORD=adminpass
 
 # Domain Configuration
-ESPOCRM_SITE_URL=crm.localhost
+ESPOCRM_SITE_URL=crm-dev.starosten.com
 
 # SSL/HTTPS Configuration
-YOUR_EMAIL=your-email@example.com
+YOUR_EMAIL=maksim.s@dreamhold.org
 
 # For local development without real SSL
 TRAFFIC_TLS_COMMANDS=
@@ -166,11 +166,11 @@ ESPOCRM_ADMIN_USERNAME=admin
 ESPOCRM_ADMIN_PASSWORD=YOUR_STRONG_ADMIN_PASSWORD
 
 # Domain Configuration - YOUR ACTUAL DOMAIN
-ESPOCRM_SITE_URL=espo.yourdomain.com
+ESPOCRM_SITE_URL=crm.starosten.com
 
 # SSL/HTTPS Configuration
 # Let's Encrypt Email - VALID EMAIL FOR CERTIFICATE EXPIRY NOTICES
-YOUR_EMAIL=admin@yourdomain.com
+YOUR_EMAIL=maksim.s@dreamhold.org
 
 # Leave empty for automatic Let's Encrypt
 TRAFFIC_TLS_COMMANDS=
@@ -185,15 +185,19 @@ TRAFFIC_TLS_COMMANDS=
 Before deploying, ensure your domain points to your server:
 
 ```bash
-# Test DNS resolution
-dig +short espo.yourdomain.com
+# Test DNS resolution for production
+dig +short crm.starosten.com
 
-# Should return your server's IP address
+# Test DNS resolution for development
+dig +short crm-dev.starosten.com
+
+# Both should return: 159.198.64.202
 ```
 
-If deploying locally, add to `/etc/hosts`:
+If deploying locally for testing, you can add to `/etc/hosts`:
 ```
-127.0.0.1 crm.localhost
+127.0.0.1 crm-dev.starosten.com
+127.0.0.1 crm.starosten.com
 ```
 
 ### Step 3: Create Required Directories
@@ -238,7 +242,8 @@ docker compose ps
    Look for: "database system is ready to accept connections"
 
 3. **Access EspoCRM:**
-   - Open: `https://espo.yourdomain.com` (or your configured domain)
+   - Development: `https://crm-dev.starosten.com`
+   - Production: `https://crm.starosten.com`
    - You may need to wait 1-2 minutes for initial setup
 
 4. **Login with admin credentials:**
@@ -289,13 +294,13 @@ sudo ufw enable
 |----------|-------------|---------|
 | `ESPOCRM_ADMIN_USERNAME` | Initial admin username | `admin` |
 | `ESPOCRM_ADMIN_PASSWORD` | Initial admin password | Strong password |
-| `ESPOCRM_SITE_URL` | Full domain for CRM | `espo.domain.com` |
+| `ESPOCRM_SITE_URL` | Full domain for CRM | `crm.starosten.com` or `crm-dev.starosten.com` |
 
 ### Traefik Variables
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `YOUR_EMAIL` | Email for Let's Encrypt | `admin@domain.com` |
+| `YOUR_EMAIL` | Email for Let's Encrypt | `maksim.s@dreamhold.org` |
 | `TRAFFIC_TLS_COMMANDS` | Optional TLS override | Leave empty for ACME |
 
 ### Environment Variables
@@ -551,7 +556,7 @@ docker compose logs traefik | grep espocrm
 
 **Common issues:**
 - PostgreSQL not healthy: Wait for health check to pass
-- DNS not pointing to server: Check DNS with `dig yourdomain.com`
+- DNS not pointing to server: Check DNS with `dig crm.starosten.com` or `dig crm-dev.starosten.com`
 - Firewall blocking ports: Check with `sudo ufw status`
 
 ### SSL Certificate Issues
