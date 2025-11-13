@@ -25,7 +25,7 @@ else
     echo "=== Настройка автоматического бэкапа через cron для окружения $ENVIRONMENT ==="
 
     # Создаём cron-задание в /etc/cron.d/postgres-backup
-    echo "* */2 * * * root PGPASSWORD=$POSTGRES_PASSWORD pg_dump -h $POSTGRES_HOST -U $POSTGRES_USER -d $POSTGRES_DB | gzip > $BACKUP_DIR/db_\$(date +\%Y\%m\%d_\%H\%M\%S).sql.gz && echo \"\$(date): Backup completed for $ENVIRONMENT environment\" >> /var/log/cron.log" > /etc/cron.d/postgres-backup
+    echo "0 * * * * root PGPASSWORD=$POSTGRES_PASSWORD pg_dump -h $POSTGRES_HOST -U $POSTGRES_USER -d $POSTGRES_DB | gzip > $BACKUP_DIR/db_\$(date +\%Y\%m\%d_\%H\%M\%S).sql.gz && echo \"\$(date): Backup completed for $ENVIRONMENT environment\" >> /var/log/cron.log" > /etc/cron.d/postgres-backup
     chmod 0644 /etc/cron.d/postgres-backup
     crontab /etc/cron.d/postgres-backup
 
