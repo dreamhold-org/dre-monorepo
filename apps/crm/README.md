@@ -2,6 +2,8 @@
 
 Production-ready Docker Compose deployment of EspoCRM with PostgreSQL, Traefik reverse proxy, automated backups, and real-time WebSocket support.
 
+**Environment Support:** This deployment supports separate development and production environments with isolated databases and backups.
+
 ## Overview
 
 This deployment provides a complete EspoCRM installation with:
@@ -11,6 +13,7 @@ This deployment provides a complete EspoCRM installation with:
 - **Automated Backups** - PostgreSQL backups every 2 hours
 - **WebSocket Support** - Real-time notifications and updates
 - **Custom Extensions** - Persistent customization directory
+- **Environment Isolation** - Separate dev and prod databases, volumes, and backups
 
 ## Architecture
 
@@ -28,11 +31,15 @@ This deployment provides a complete EspoCRM installation with:
 
 ### Volumes
 
-- `postgres_data` - Persistent PostgreSQL database storage
-- `espocrm_data` - Persistent EspoCRM application files
-- `./custom` - Custom EspoCRM extensions and modules (mounted)
-- `./letsencrypt` - SSL certificates from Let's Encrypt (mounted)
-- `./backups` - Database backup files (mounted)
+**Environment-Specific Volumes:**
+- `postgres_data_dev` / `postgres_data_prod` - Persistent PostgreSQL database storage per environment
+- `espocrm_data_dev` / `espocrm_data_prod` - Persistent EspoCRM application files per environment
+
+**Shared Volumes:**
+- `./custom` - Custom EspoCRM extensions and modules (mounted, shared)
+- `./letsencrypt` - SSL certificates from Let's Encrypt (mounted, shared)
+- `./dev-backups` - Development database backup files (mounted)
+- `./prod-backups` - Production database backup files (mounted)
 
 ### Network Architecture
 
@@ -56,6 +63,46 @@ PostgreSQL     EspoCRM Daemon
 - **Email address** for Let's Encrypt certificate notifications
 - **Open ports**: 80 (HTTP), 443 (HTTPS), 8080 (Traefik dashboard - optional)
 
+## Environment Isolation
+
+This deployment supports running **separate development and production environments simultaneously** on the same server. Each environment has:
+
+- **Isolated Database**: `postgres-dev` and `postgres-prod` containers with separate data volumes
+- **Isolated Application**: `espocrm-dev` and `espocrm-prod` containers with separate data volumes
+- **Isolated Backups**: `dev-backups/` and `prod-backups/` directories
+- **Separate Container Names**: All services are suffixed with environment name
+
+### Running Multiple Environments
+
+**Development environment:**
+```bash
+docker compose --env-file .env up -d
+# Uses ENVIRONMENT=dev
+# Creates: postgres-dev, espocrm-dev, postgres-backup-dev, etc.
+# Backups go to: ./dev-backups/
+```
+
+**Production environment:**
+```bash
+docker compose --env-file .env.prod up -d
+# Uses ENVIRONMENT=prod
+# Creates: postgres-prod, espocrm-prod, postgres-backup-prod, etc.
+# Backups go to: ./prod-backups/
+```
+
+**Both environments simultaneously:**
+```bash
+# Start dev
+docker compose --env-file .env up -d
+
+# Start prod
+docker compose --env-file .env.prod up -d
+
+# Both are now running with isolated data!
+```
+
+**Important:** Each environment requires a different `ESPOCRM_SITE_URL` domain to avoid Traefik routing conflicts.
+
 ## Deployment Scheme
 
 ### Step 1: Environment Configuration
@@ -73,6 +120,9 @@ cp .env.example .env
 Edit `.env` with your settings:
 
 ```env
+# Environment (dev or prod)
+ENVIRONMENT=dev
+
 # Database Configuration
 POSTGRES_USER=espocrm
 POSTGRES_PASSWORD=localpass
@@ -85,7 +135,7 @@ ESPOCRM_ADMIN_PASSWORD=adminpass
 # Domain Configuration
 ESPOCRM_SITE_URL=crm.localhost
 
-# Let's Encrypt Email
+# SSL/HTTPS Configuration
 YOUR_EMAIL=your-email@example.com
 
 # For local development without real SSL
@@ -103,6 +153,9 @@ cp .env.prod.example .env.prod
 Edit `.env.prod` with your production settings:
 
 ```env
+# Environment (dev or prod)
+ENVIRONMENT=prod
+
 # Database Configuration - USE STRONG PASSWORDS
 POSTGRES_USER=pguser
 POSTGRES_PASSWORD=YOUR_STRONG_PASSWORD_HERE
@@ -115,6 +168,7 @@ ESPOCRM_ADMIN_PASSWORD=YOUR_STRONG_ADMIN_PASSWORD
 # Domain Configuration - YOUR ACTUAL DOMAIN
 ESPOCRM_SITE_URL=espo.yourdomain.com
 
+# SSL/HTTPS Configuration
 # Let's Encrypt Email - VALID EMAIL FOR CERTIFICATE EXPIRY NOTICES
 YOUR_EMAIL=admin@yourdomain.com
 
@@ -146,8 +200,12 @@ If deploying locally, add to `/etc/hosts`:
 
 ```bash
 # Create directories for persistent data
-mkdir -p backups letsencrypt custom
+mkdir -p dev-backups prod-backups letsencrypt custom
 ```
+
+**Note:** Backup directories are environment-specific:
+- `dev-backups/` - Stores development database backups
+- `prod-backups/` - Stores production database backups
 
 ### Step 4: Start the Stack
 
@@ -240,6 +298,12 @@ sudo ufw enable
 | `YOUR_EMAIL` | Email for Let's Encrypt | `admin@domain.com` |
 | `TRAFFIC_TLS_COMMANDS` | Optional TLS override | Leave empty for ACME |
 
+### Environment Variables
+
+| Variable | Description | Values |
+|----------|-------------|--------|
+| `ENVIRONMENT` | Environment name for isolation | `dev` or `prod` |
+
 ### Backup Variables
 
 | Variable | Description | Default |
@@ -250,60 +314,104 @@ sudo ufw enable
 
 ### Automated Backups
 
-The `postgres-backup` service automatically backs up the database every 2 hours.
+The `postgres-backup` service automatically backs up the database every 2 hours for each environment.
 
-**Backup location:** `./backups/`
+**Backup locations (environment-specific):**
+- Development: `./dev-backups/`
+- Production: `./prod-backups/`
+
 **Backup format:** `db_YYYYMMDD_HHMMSS.sql.gz`
 
 **View backup logs:**
 ```bash
-docker compose logs postgres-backup
+# Development
+docker compose --env-file .env logs postgres-backup-dev
+
+# Production
+docker compose --env-file .env.prod logs postgres-backup-prod
 ```
 
 **List backups:**
 ```bash
-ls -lh backups/
+# Development backups
+ls -lh dev-backups/
+
+# Production backups
+ls -lh prod-backups/
 ```
 
 ### Manual Backup
 
 Create an immediate backup before maintenance:
 
+**Development environment:**
 ```bash
-docker compose run --rm -e MANUAL_BACKUP=1 postgres-backup
+docker compose --env-file .env run --rm -e MANUAL_BACKUP=1 postgres-backup
 ```
 
-This creates a timestamped backup in `./backups/`.
+**Production environment:**
+```bash
+docker compose --env-file .env.prod run --rm -e MANUAL_BACKUP=1 postgres-backup
+```
+
+Backups are created in the environment-specific directories (`dev-backups/` or `prod-backups/`).
 
 ### Restore from Backup
 
+**Development environment:**
+
 1. **Stop EspoCRM services:**
    ```bash
-   docker compose stop espocrm espocrm-daemon espocrm-websocket
+   docker compose --env-file .env stop espocrm-dev espocrm-daemon-dev espocrm-websocket-dev
    ```
 
 2. **Extract and restore backup:**
    ```bash
    # Find your backup file
-   ls backups/
+   ls dev-backups/
 
    # Restore (replace BACKUP_FILE with your file)
-   gunzip -c backups/BACKUP_FILE.sql.gz | \
-     docker compose exec -T postgres psql -U $POSTGRES_USER -d $POSTGRES_DB
+   gunzip -c dev-backups/BACKUP_FILE.sql.gz | \
+     docker compose --env-file .env exec -T postgres-dev psql -U $POSTGRES_USER -d $POSTGRES_DB
    ```
 
 3. **Restart services:**
    ```bash
-   docker compose start espocrm espocrm-daemon espocrm-websocket
+   docker compose --env-file .env start espocrm-dev espocrm-daemon-dev espocrm-websocket-dev
+   ```
+
+**Production environment:**
+
+1. **Stop EspoCRM services:**
+   ```bash
+   docker compose --env-file .env.prod stop espocrm-prod espocrm-daemon-prod espocrm-websocket-prod
+   ```
+
+2. **Extract and restore backup:**
+   ```bash
+   # Find your backup file
+   ls prod-backups/
+
+   # Restore (replace BACKUP_FILE with your file)
+   gunzip -c prod-backups/BACKUP_FILE.sql.gz | \
+     docker compose --env-file .env.prod exec -T postgres-prod psql -U $POSTGRES_USER -d $POSTGRES_DB
+   ```
+
+3. **Restart services:**
+   ```bash
+   docker compose --env-file .env.prod start espocrm-prod espocrm-daemon-prod espocrm-websocket-prod
    ```
 
 ### Backup Retention
 
-Backups are not automatically deleted. Implement a cleanup strategy:
+Backups are not automatically deleted. Implement a cleanup strategy for each environment:
 
 ```bash
-# Keep last 30 days of backups (run via cron)
-find backups/ -name "db_*.sql.gz" -mtime +30 -delete
+# Keep last 30 days of development backups (run via cron)
+find dev-backups/ -name "db_*.sql.gz" -mtime +30 -delete
+
+# Keep last 30 days of production backups (run via cron)
+find prod-backups/ -name "db_*.sql.gz" -mtime +30 -delete
 ```
 
 ## Customization

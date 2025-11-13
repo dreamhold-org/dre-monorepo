@@ -1,1 +1,4 @@
+# CRM backup directories
+apps/crm/dev-backups
+apps/crm/prod-backups
 apps/crm/backups

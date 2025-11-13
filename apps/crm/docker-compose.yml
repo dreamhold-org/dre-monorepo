@@ -30,17 +30,17 @@ services:
     restart: always
 
   # ========================
-  # PostgreSQL Database (общий)
+  # PostgreSQL Database (environment-specific)
   # ========================
   postgres:
     image: postgres:18
-    container_name: postgres
+    container_name: postgres-${ENVIRONMENT:-dev}
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - postgres_data_${ENVIRONMENT:-dev}:/var/lib/postgresql
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
@@ -53,28 +53,29 @@ services:
     build:
       context: ./postgres-backup
       dockerfile: Dockerfile
-    container_name: postgres-backup
+    container_name: postgres-backup-${ENVIRONMENT:-dev}
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_HOST: postgres
+      POSTGRES_HOST: postgres-${ENVIRONMENT:-dev}
+      ENVIRONMENT: ${ENVIRONMENT:-dev}
       MANUAL_BACKUP: ${MANUAL_BACKUP:-0} # 1 для ручного бэкапа
     volumes:
-      - ./backups:/backups # папка на хосте для дампов
+      - ./${ENVIRONMENT:-dev}-backups:/backups # папка на хосте для дампов
     restart: unless-stopped
     depends_on:
       - postgres
 
   # ========================
-  # EspoCRM Web (общий)
+  # EspoCRM Web (environment-specific)
   # ========================
   espocrm:
     image: espocrm/espocrm:latest
-    container_name: espocrm
+    container_name: espocrm-${ENVIRONMENT:-dev}
     environment:
       ESPOCRM_DATABASE_PLATFORM: Postgresql
-      ESPOCRM_DATABASE_HOST: postgres
+      ESPOCRM_DATABASE_HOST: postgres-${ENVIRONMENT:-dev}
       ESPOCRM_DATABASE_USER: ${POSTGRES_USER}
       ESPOCRM_DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
       ESPOCRM_DATABASE_NAME: ${POSTGRES_DB}
@@ -83,42 +84,42 @@ services:
       ESPOCRM_SITE_URL: https://${ESPOCRM_SITE_URL}
     volumes:
       - ./custom:/var/www/html/custom
-      - espocrm_data:/var/www/html
+      - espocrm_data_${ENVIRONMENT:-dev}:/var/www/html
     depends_on:
       postgres:
         condition: service_healthy
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.espocrm.rule=Host(`${ESPOCRM_SITE_URL}`)
-      - traefik.http.routers.espocrm.entrypoints=websecure
-      - traefik.http.routers.espocrm.tls=true
-      - traefik.http.routers.espocrm.tls.certresolver=myresolver
+      - traefik.http.routers.espocrm-${ENVIRONMENT:-dev}.rule=Host(`${ESPOCRM_SITE_URL}`)
+      - traefik.http.routers.espocrm-${ENVIRONMENT:-dev}.entrypoints=websecure
+      - traefik.http.routers.espocrm-${ENVIRONMENT:-dev}.tls=true
+      - traefik.http.routers.espocrm-${ENVIRONMENT:-dev}.tls.certresolver=myresolver
 
   # ========================
-  # EspoCRM Background Jobs (общий)
+  # EspoCRM Background Jobs (environment-specific)
   # ========================
   espocrm-daemon:
     image: espocrm/espocrm:latest
-    container_name: espocrm-daemon
+    container_name: espocrm-daemon-${ENVIRONMENT:-dev}
     volumes:
-      - espocrm_data:/var/www/html
+      - espocrm_data_${ENVIRONMENT:-dev}:/var/www/html
     restart: always
     entrypoint: docker-daemon.sh
 
   # ========================
-  # EspoCRM WebSocket (общий)
+  # EspoCRM WebSocket (environment-specific)
   # ========================
   espocrm-websocket:
     image: espocrm/espocrm:latest
-    container_name: espocrm-websocket
+    container_name: espocrm-websocket-${ENVIRONMENT:-dev}
     environment:
       ESPOCRM_CONFIG_USE_WEB_SOCKET: "true"
       ESPOCRM_CONFIG_WEB_SOCKET_URL: "wss://${ESPOCRM_SITE_URL}/ws"
       ESPOCRM_CONFIG_WEB_SOCKET_ZERO_M_Q_SUBSCRIBER_DSN: "tcp://*:7777"
-      ESPOCRM_CONFIG_WEB_SOCKET_ZERO_M_Q_SUBMISSION_DSN: "tcp://espocrm-websocket:7777"
+      ESPOCRM_CONFIG_WEB_SOCKET_ZERO_M_Q_SUBMISSION_DSN: "tcp://espocrm-websocket-${ENVIRONMENT:-dev}:7777"
     volumes:
-      - espocrm_data:/var/www/html
+      - espocrm_data_${ENVIRONMENT:-dev}:/var/www/html
     restart: always
     entrypoint: docker-websocket.sh
 
@@ -137,5 +138,7 @@ services:
       - traefik.http.routers.whoami.tls.certresolver=myresolver
 
 volumes:
-  postgres_data:
-  espocrm_data:
+  postgres_data_dev:
+  postgres_data_prod:
+  espocrm_data_dev:
+  espocrm_data_prod:
