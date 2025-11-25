@@ -1,0 +1,20 @@
+[
+    {
+        "route": "RealEstateMatchingConfiguration",
+        "method": "put",
+        "params": {
+            "controller": "RealEstateMatchingConfiguration",
+            "action": "update"
+        }
+    },
+    {
+        "route": "RealEstateProperty/:id/matchingRequests",
+        "method": "get",
+        "actionClassName": "Espo\\Modules\\RealEstate\\Tools\\Property\\Api\\GetMatchingRequests"
+    },
+    {
+        "route": "RealEstateRequest/:id/matchingProperties",
+        "method": "get",
+        "actionClassName": "Espo\\Modules\\RealEstate\\Tools\\Request\\Api\\GetMatchingProperties"
+    }
+]
