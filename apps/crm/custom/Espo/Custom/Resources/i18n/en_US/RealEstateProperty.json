@@ -1,0 +1,12 @@
+{
+    "fields": {
+        "cWindowView": "Window View"
+    },
+    "options": {
+        "cWindowView": {
+            "": "",
+            "City View": "City View",
+            "Inner Yard": "Inner Yard"
+        }
+    }
+}

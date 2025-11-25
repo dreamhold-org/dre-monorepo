@@ -1,0 +1,8 @@
+{
+    "options": {
+        "type": {
+            "Rent": "Rent",
+            "Sale": "Sale"
+        }
+    }
+}

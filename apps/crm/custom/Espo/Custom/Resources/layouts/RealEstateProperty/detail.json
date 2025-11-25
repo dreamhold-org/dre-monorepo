@@ -1,0 +1,161 @@
+[
+    {
+        "rows": [
+            [
+                {
+                    "name": "requestType"
+                },
+                {
+                    "name": "type"
+                },
+                false,
+                false
+            ],
+            [
+                {
+                    "name": "price"
+                },
+                false,
+                false,
+                false
+            ],
+            [
+                false,
+                false
+            ],
+            [
+                {
+                    "name": "location"
+                },
+                {
+                    "name": "account"
+                }
+            ],
+            [
+                {
+                    "name": "address"
+                },
+                {
+                    "name": "contacts"
+                }
+            ]
+        ],
+        "dynamicLogicVisible": null,
+        "style": "default",
+        "dynamicLogicStyled": null,
+        "tabBreak": false,
+        "hidden": false,
+        "noteText": null,
+        "customLabel": "🏠 Overview"
+    },
+    {
+        "rows": [
+            [
+                false,
+                false
+            ]
+        ],
+        "dynamicLogicVisible": null,
+        "style": "default",
+        "tabBreak": false,
+        "hidden": false,
+        "noteText": null,
+        "noteStyle": "info",
+        "customLabel": "⚖️ Legal"
+    },
+    {
+        "rows": [
+            [
+                false,
+                false
+            ]
+        ],
+        "dynamicLogicVisible": null,
+        "style": "default",
+        "tabBreak": false,
+        "tabLabel": null,
+        "hidden": false,
+        "noteText": null,
+        "noteStyle": "info",
+        "customLabel": "📍 Address"
+    },
+    {
+        "rows": [
+            [
+                {
+                    "name": "yearBuilt"
+                },
+                {
+                    "name": "square"
+                },
+                false,
+                false
+            ],
+            [
+                {
+                    "name": "bedroomCount"
+                },
+                {
+                    "name": "bathroomCount"
+                }
+            ],
+            [
+                {
+                    "name": "floor"
+                },
+                {
+                    "name": "floorCount"
+                }
+            ],
+            [
+                {
+                    "name": "description"
+                }
+            ],
+            [
+                {
+                    "name": "images"
+                }
+            ]
+        ],
+        "dynamicLogicVisible": null,
+        "style": "default",
+        "dynamicLogicStyled": null,
+        "tabBreak": false,
+        "hidden": false,
+        "noteText": null,
+        "customLabel": "🧐 Details"
+    },
+    {
+        "rows": [
+            [
+                false,
+                false
+            ]
+        ],
+        "dynamicLogicVisible": null,
+        "style": "default",
+        "tabBreak": false,
+        "tabLabel": null,
+        "hidden": false,
+        "noteText": null,
+        "noteStyle": "info",
+        "customLabel": "✨ Features"
+    },
+    {
+        "rows": [
+            [
+                {
+                    "name": "addressMap"
+                }
+            ]
+        ],
+        "dynamicLogicVisible": null,
+        "style": "default",
+        "dynamicLogicStyled": null,
+        "tabBreak": false,
+        "hidden": false,
+        "noteText": null,
+        "customLabel": "🗺️ Map"
+    }
+]

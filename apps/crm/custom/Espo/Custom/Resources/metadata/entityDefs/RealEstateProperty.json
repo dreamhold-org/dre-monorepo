@@ -1,0 +1,33 @@
+{
+    "fields": {
+        "cWindowView": {
+            "type": "multiEnum",
+            "storeArrayValues": true,
+            "default": [],
+            "options": [
+                "",
+                "City View",
+                "Inner Yard"
+            ],
+            "style": {
+                "": null,
+                "City View": null,
+                "Inner Yard": null
+            },
+            "isCustom": true
+        },
+        "requestType": {
+            "type": "enum",
+            "options": [
+                "Rent",
+                "Sale"
+            ],
+            "style": {
+                "Rent": null,
+                "Sale": null
+            },
+            "default": "Sale",
+            "maxLength": 100
+        }
+    }
+}
