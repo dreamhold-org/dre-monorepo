@@ -11,14 +11,22 @@ services:
       - --api.insecure=true
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
+      - --providers.file.filename=/etc/traefik/traefik-tls.yml
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
+      # HTTP/2 optimization
+      - --entrypoints.websecure.http2.maxConcurrentStreams=250
+      - --entrypoints.websecure.http.tls=true
       - --entrypoints.web.http.redirections.entryPoint.to=websecure
       - --entrypoints.web.http.redirections.entryPoint.scheme=https
       - --entrypoints.web.http.redirections.entrypoint.permanent=true
+      # ACME/Let's Encrypt with ECDSA (faster than RSA)
       - --certificatesresolvers.myresolver.acme.tlschallenge=true
+      - --certificatesresolvers.myresolver.acme.keytype=EC384
       - --certificatesresolvers.myresolver.acme.email=${YOUR_EMAIL}
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      # Modern TLS configuration
+      - --entrypoints.websecure.http.tls.options=modern@file
       - ${TRAFFIC_TLS_COMMANDS:-} # override для локалки
     ports:
       - "80:80"
@@ -27,6 +35,7 @@ services:
     volumes:
       - ./letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik-tls.yml:/etc/traefik/traefik-tls.yml:ro
     restart: always
 
   # ========================
