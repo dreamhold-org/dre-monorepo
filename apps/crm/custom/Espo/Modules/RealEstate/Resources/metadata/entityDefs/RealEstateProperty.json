@@ -341,6 +341,9 @@
         },
         "Farm": {
             "fieldList": ["yearBuilt", "square"]
+        },
+        "Townhouse": {
+            "fieldList": ["bedroomCount", "bathroomCount", "floorCount", "yearBuilt", "square"]
         }
     },
     "matchingFieldTypeList": ["int", "float"]
