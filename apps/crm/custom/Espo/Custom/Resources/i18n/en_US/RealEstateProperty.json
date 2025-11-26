@@ -1,12 +1,36 @@
 {
     "fields": {
-        "cWindowView": "Window View"
+        "cWindowView": "Window View",
+        "cCommissionPercent": "CommissionPercent",
+        "cCommissionSum": "CommissionSum",
+        "cCommissionSumCurrency": "CommissionSum (Currency)",
+        "cCommissionSumConverted": "CommissionSum (Converted)",
+        "cLegalTitle": "Title",
+        "cCommissionComment": "CommissionComment"
     },
     "options": {
         "cWindowView": {
             "": "",
             "City View": "City View",
             "Inner Yard": "Inner Yard"
+        },
+        "type": {
+            "Apartment": "Apartment",
+            "Separate House": "Separate House",
+            "Room": "Room",
+            "Land Lot": "Land Lot",
+            "Office": "Office",
+            "Warehouse": "Warehouse",
+            "Retail": "Retail",
+            "Farm": "Farm",
+            "Townhouse": "Townhouse"
+        },
+        "cLegalTitle": {
+            "Turkish Title Deeds": "Turkish Title Deeds",
+            "Exchange Deeds": "Exchange Deeds",
+            "Foreign Title Deeds": "Foreign Title Deeds",
+            "Tahsis": "Tahsis",
+            "Leasehold": "Leasehold"
         }
     }
 }

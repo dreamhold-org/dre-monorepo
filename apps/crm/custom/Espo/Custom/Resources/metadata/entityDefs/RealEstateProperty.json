@@ -28,6 +28,68 @@
             },
             "default": "Sale",
             "maxLength": 100
+        },
+        "type": {
+            "options": [
+                "Apartment",
+                "Separate House",
+                "Room",
+                "Land Lot",
+                "Office",
+                "Warehouse",
+                "Retail",
+                "Farm",
+                "Townhouse"
+            ],
+            "style": {
+                "Apartment": null,
+                "Separate House": null,
+                "Room": null,
+                "Land Lot": null,
+                "Office": null,
+                "Warehouse": null,
+                "Retail": null,
+                "Farm": null,
+                "Townhouse": null
+            }
+        },
+        "cCommissionPercent": {
+            "notNull": false,
+            "type": "float",
+            "min": 0,
+            "default": 5,
+            "isCustom": true
+        },
+        "cCommissionSum": {
+            "type": "currency",
+            "min": 0,
+            "isCustom": true
+        },
+        "cLegalTitle": {
+            "type": "enum",
+            "options": [
+                "Turkish Title Deeds",
+                "Exchange Deeds",
+                "Foreign Title Deeds",
+                "Tahsis",
+                "Leasehold"
+            ],
+            "style": {
+                "Turkish Title Deeds": null,
+                "Exchange Deeds": null,
+                "Foreign Title Deeds": null,
+                "Tahsis": null,
+                "Leasehold": null
+            },
+            "default": "Turkish Title Deeds",
+            "maxLength": 100,
+            "isCustom": true
+        },
+        "cCommissionComment": {
+            "type": "text",
+            "rowsMin": 2,
+            "cutHeight": 200,
+            "isCustom": true
         }
     }
 }

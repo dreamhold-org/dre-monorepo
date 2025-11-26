@@ -1,0 +1,37 @@
+{
+    "options": {
+        "type": [
+            {
+                "optionList": [
+                    "Apartment",
+                    "Separate House",
+                    "Townhouse"
+                ],
+                "conditionGroup": [
+                    {
+                        "type": "equals",
+                        "attribute": "requestType",
+                        "value": "Sale"
+                    }
+                ]
+            }
+        ]
+    },
+    "fields": {
+        "floorCount": {
+            "visible": {
+                "conditionGroup": [
+                    {
+                        "type": "in",
+                        "attribute": "type",
+                        "value": [
+                            "Apartment",
+                            "Separate House",
+                            "Townhouse"
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}

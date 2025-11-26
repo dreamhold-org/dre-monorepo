@@ -16,12 +16,18 @@
                     "name": "price"
                 },
                 false,
-                false,
-                false
+                {
+                    "name": "cCommissionPercent"
+                },
+                {
+                    "name": "cCommissionSum"
+                }
             ],
             [
                 false,
-                false
+                {
+                    "name": "cCommissionComment"
+                }
             ],
             [
                 {
@@ -51,7 +57,9 @@
     {
         "rows": [
             [
-                false,
+                {
+                    "name": "cLegalTitle"
+                },
                 false
             ]
         ],
