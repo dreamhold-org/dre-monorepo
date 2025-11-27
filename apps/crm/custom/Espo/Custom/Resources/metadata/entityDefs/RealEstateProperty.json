@@ -90,6 +90,182 @@
             "rowsMin": 2,
             "cutHeight": 200,
             "isCustom": true
+        },
+        "bedroomCount": {
+            "isMatching": true
+        },
+        "bathroomCount": {
+            "isMatching": true
+        },
+        "floor": {
+            "isMatching": true
+        },
+        "floorCount": {
+            "isMatching": true
+        },
+        "yearBuilt": {
+            "isMatching": true
+        },
+        "square": {
+            "isMatching": true
+        },
+        "cLandLot": {
+            "notNull": false,
+            "type": "float",
+            "isCustom": true,
+            "isMatching": true
+        },
+        "cComplexName": {
+            "type": "varchar",
+            "maxLength": 100,
+            "options": [],
+            "isCustom": true
+        },
+        "cFlatNumber": {
+            "type": "varchar",
+            "maxLength": 100,
+            "options": [],
+            "isCustom": true
+        },
+        "cExternalFeatures": {
+            "type": "multiEnum",
+            "storeArrayValues": true,
+            "default": [],
+            "options": [
+                "Garage",
+                "Garden",
+                "Private Pool",
+                "Shared Pool",
+                "Security Cam",
+                "Terrace",
+                "Barbecue",
+                "Generator",
+                "Elevator",
+                "Parking",
+                "Playground",
+                "Sports Ground",
+                "Gym"
+            ],
+            "style": {
+                "Garage": null,
+                "Garden": null,
+                "Private Pool": null,
+                "Shared Pool": null,
+                "Security Cam": null,
+                "Terrace": null,
+                "Barbecue": null,
+                "Generator": null,
+                "Elevator": null,
+                "Parking": null,
+                "Playground": null,
+                "Sports Ground": null,
+                "Gym": null
+            },
+            "isCustom": true
+        },
+        "cInternalFeatures": {
+            "type": "multiEnum",
+            "storeArrayValues": true,
+            "default": [],
+            "options": [
+                "Air Conditioner",
+                "Balcony",
+                "Bath",
+                "Fireplace",
+                "Intercom",
+                "Terrace",
+                "Wardrobe"
+            ],
+            "style": {
+                "Air Conditioner": null,
+                "Balcony": null,
+                "Bath": null,
+                "Fireplace": null,
+                "Intercom": null,
+                "Terrace": null,
+                "Wardrobe": null
+            },
+            "isCustom": true
+        },
+        "cFurnitured": {
+            "notNull": true,
+            "type": "bool",
+            "isCustom": true
+        },
+        "cWhiteGoods": {
+            "notNull": true,
+            "type": "bool",
+            "isCustom": true
+        }
+    },
+    "propertyTypes": {
+        "Apartment": {
+            "fieldList": [
+                "bedroomCount",
+                "bathroomCount",
+                "floor",
+                "floorCount",
+                "yearBuilt",
+                "square"
+            ]
+        },
+        "Separate House": {
+            "fieldList": [
+                "bedroomCount",
+                "bathroomCount",
+                "floorCount",
+                "yearBuilt",
+                "square",
+                "cLandLot"
+            ]
+        },
+        "Room": {
+            "fieldList": [
+                "floor",
+                "yearBuilt",
+                "square"
+            ]
+        },
+        "Land Lot": {
+            "fieldList": [
+                "square"
+            ]
+        },
+        "Office": {
+            "fieldList": [
+                "floor",
+                "floorCount",
+                "yearBuilt",
+                "square"
+            ]
+        },
+        "Warehouse": {
+            "fieldList": [
+                "yearBuilt",
+                "square"
+            ]
+        },
+        "Retail": {
+            "fieldList": [
+                "yearBuilt",
+                "square"
+            ]
+        },
+        "Farm": {
+            "fieldList": [
+                "yearBuilt",
+                "square"
+            ]
+        },
+        "Townhouse": {
+            "fieldList": [
+                "bedroomCount",
+                "bathroomCount",
+                "floorCount",
+                "yearBuilt",
+                "square",
+                "cLandLot"
+            ]
         }
     }
 }

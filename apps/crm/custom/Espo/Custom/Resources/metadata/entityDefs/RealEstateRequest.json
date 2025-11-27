@@ -9,6 +9,15 @@
                 "Rent": null,
                 "Sale": null
             }
+        },
+        "fromCLandLot": {
+            "type": "float"
+        },
+        "toCLandLot": {
+            "type": "float"
+        },
+        "cLandLot": {
+            "type": "rangeFloat"
         }
     }
 }

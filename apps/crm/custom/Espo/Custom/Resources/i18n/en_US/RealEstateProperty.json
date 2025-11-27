@@ -1,12 +1,19 @@
 {
     "fields": {
         "cWindowView": "Window View",
-        "cCommissionPercent": "CommissionPercent",
-        "cCommissionSum": "CommissionSum",
+        "cCommissionPercent": "Commission Percent",
+        "cCommissionSum": "Commission Sum",
         "cCommissionSumCurrency": "CommissionSum (Currency)",
         "cCommissionSumConverted": "CommissionSum (Converted)",
         "cLegalTitle": "Title",
-        "cCommissionComment": "CommissionComment"
+        "cCommissionComment": "Commission Comment",
+        "cLandLot": "Land Lot",
+        "cComplexName": "Complex Name",
+        "cFlatNumber": "Flat Number",
+        "cExternalFeatures": "External Features",
+        "cInternalFeatures": "Internal Features",
+        "cFurnitured": "Furnitured",
+        "cWhiteGoods": "White Goods"
     },
     "options": {
         "cWindowView": {
@@ -31,6 +38,30 @@
             "Foreign Title Deeds": "Foreign Title Deeds",
             "Tahsis": "Tahsis",
             "Leasehold": "Leasehold"
+        },
+        "cExternalFeatures": {
+            "Garage": "Garage",
+            "Garden": "Garden",
+            "Private Pool": "Private Pool",
+            "Shared Pool": "Shared Pool",
+            "Security Cam": "Security Cam",
+            "Terrace": "Terrace",
+            "Barbecue": "Barbecue",
+            "Generator": "Generator",
+            "Elevator": "Elevator",
+            "Parking": "Parking",
+            "Playground": "Playground",
+            "Sports Ground": "Sports Ground",
+            "Gym": "Gym"
+        },
+        "cInternalFeatures": {
+            "Air Conditioner": "Air Conditioner",
+            "Balcony": "Balcony",
+            "Bath": "Bath",
+            "Fireplace": "Fireplace",
+            "Intercom": "Intercom",
+            "Terrace": "Terrace",
+            "Wardrobe": "Wardrobe"
         }
     }
 }

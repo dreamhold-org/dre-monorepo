@@ -30,20 +30,8 @@
                 }
             ],
             [
-                {
-                    "name": "location"
-                },
-                {
-                    "name": "account"
-                }
-            ],
-            [
-                {
-                    "name": "address"
-                },
-                {
-                    "name": "contacts"
-                }
+                false,
+                false
             ]
         ],
         "dynamicLogicVisible": null,
@@ -74,8 +62,12 @@
     {
         "rows": [
             [
-                false,
-                false
+                {
+                    "name": "location"
+                },
+                {
+                    "name": "address"
+                }
             ]
         ],
         "dynamicLogicVisible": null,
@@ -96,8 +88,9 @@
                 {
                     "name": "square"
                 },
-                false,
-                false
+                {
+                    "name": "cLandLot"
+                }
             ],
             [
                 {
@@ -137,8 +130,23 @@
     {
         "rows": [
             [
-                false,
-                false
+                {
+                    "name": "cWindowView"
+                },
+                {
+                    "name": "cExternalFeatures"
+                }
+            ],
+            [
+                {
+                    "name": "cInternalFeatures"
+                },
+                {
+                    "name": "cFurnitured"
+                },
+                {
+                    "name": "cWhiteGoods"
+                }
             ]
         ],
         "dynamicLogicVisible": null,
