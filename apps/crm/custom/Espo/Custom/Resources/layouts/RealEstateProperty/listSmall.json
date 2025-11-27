@@ -1,0 +1,24 @@
+[
+    {
+        "name": "description",
+        "width": 20,
+        "link": true,
+        "align": "left"
+    },
+    {
+        "name": "name",
+        "link": true
+    },
+    {
+        "name": "type",
+        "width": 18
+    },
+    {
+        "name": "requestType",
+        "width": 18
+    },
+    {
+        "name": "status",
+        "width": 18
+    }
+]

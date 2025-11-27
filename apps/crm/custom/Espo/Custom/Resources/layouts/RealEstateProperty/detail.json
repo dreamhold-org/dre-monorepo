@@ -13,6 +13,14 @@
             ],
             [
                 {
+                    "name": "cOwnerAskingPrice"
+                },
+                false,
+                false,
+                false
+            ],
+            [
+                {
                     "name": "price"
                 },
                 false,
@@ -28,10 +36,6 @@
                 {
                     "name": "cCommissionComment"
                 }
-            ],
-            [
-                false,
-                false
             ]
         ],
         "dynamicLogicVisible": null,
@@ -41,6 +45,23 @@
         "hidden": false,
         "noteText": null,
         "customLabel": "🏠 Overview"
+    },
+    {
+        "rows": [
+            [
+                {
+                    "name": "cEstimatedMarketPrice"
+                },
+                false
+            ]
+        ],
+        "dynamicLogicVisible": null,
+        "style": "default",
+        "tabBreak": false,
+        "hidden": false,
+        "noteText": null,
+        "noteStyle": "info",
+        "customLabel": "📈 Market Analytics"
     },
     {
         "rows": [
@@ -78,6 +99,22 @@
         "noteText": null,
         "noteStyle": "info",
         "customLabel": "📍 Address"
+    },
+    {
+        "rows": [
+            [
+                {
+                    "name": "addressMap"
+                }
+            ]
+        ],
+        "dynamicLogicVisible": null,
+        "style": "default",
+        "dynamicLogicStyled": null,
+        "tabBreak": false,
+        "hidden": false,
+        "noteText": null,
+        "customLabel": "🗺️ Map"
     },
     {
         "rows": [
@@ -157,21 +194,5 @@
         "noteText": null,
         "noteStyle": "info",
         "customLabel": "✨ Features"
-    },
-    {
-        "rows": [
-            [
-                {
-                    "name": "addressMap"
-                }
-            ]
-        ],
-        "dynamicLogicVisible": null,
-        "style": "default",
-        "dynamicLogicStyled": null,
-        "tabBreak": false,
-        "hidden": false,
-        "noteText": null,
-        "customLabel": "🗺️ Map"
     }
 ]

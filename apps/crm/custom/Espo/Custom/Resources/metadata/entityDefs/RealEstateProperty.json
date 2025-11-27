@@ -196,6 +196,50 @@
             "notNull": true,
             "type": "bool",
             "isCustom": true
+        },
+        "cOwnerAskingPrice": {
+            "type": "currency",
+            "audited": true,
+            "isCustom": true
+        },
+        "cEstimatedMarketPrice": {
+            "type": "currency",
+            "audited": true,
+            "tooltip": true,
+            "isCustom": true
+        },
+        "price": {
+            "audited": true,
+            "tooltip": true
+        },
+        "status": {
+            "options": [
+                "Draft",
+                "Analytics",
+                "Second Meeting",
+                "Media Processing",
+                "Review",
+                "Ready to List",
+                "Listed",
+                "Deposit",
+                "Completed",
+                "Lost",
+                "Canceled"
+            ],
+            "default": "Completed",
+            "style": {
+                "Draft": null,
+                "Analytics": "info",
+                "Second Meeting": "info",
+                "Media Processing": "info",
+                "Review": "warning",
+                "Ready to List": "warning",
+                "Listed": "primary",
+                "Deposit": "success",
+                "Completed": "success",
+                "Lost": "danger",
+                "Canceled": "danger"
+            }
         }
     },
     "propertyTypes": {
@@ -267,5 +311,18 @@
                 "cLandLot"
             ]
         }
-    }
+    },
+    "collection": {
+        "orderBy": "createdAt",
+        "order": "desc",
+        "textFilterFields": [
+            "name",
+            "addressCity",
+            "addressStreet",
+            "description"
+        ],
+        "fullTextSearch": false,
+        "countDisabled": false
+    },
+    "optimisticConcurrencyControl": false
 }

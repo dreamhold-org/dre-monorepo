@@ -13,7 +13,15 @@
         "cExternalFeatures": "External Features",
         "cInternalFeatures": "Internal Features",
         "cFurnitured": "Furnitured",
-        "cWhiteGoods": "White Goods"
+        "cWhiteGoods": "White Goods",
+        "location": "Address Book 📒",
+        "price": "Listing Price",
+        "cOwnerAskingPrice": "Owner Asking Price",
+        "cOwnerAskingPriceCurrency": "Owner Asking Price (Currency)",
+        "cOwnerAskingPriceConverted": "Owner Asking Price (Converted)",
+        "cEstimatedMarketPrice": "Estimated Market Price",
+        "cEstimatedMarketPriceCurrency": "Estimated Market Price (Currency)",
+        "cEstimatedMarketPriceConverted": "Estimated Market Price (Converted)"
     },
     "options": {
         "cWindowView": {
@@ -62,6 +70,23 @@
             "Intercom": "Intercom",
             "Terrace": "Terrace",
             "Wardrobe": "Wardrobe"
+        },
+        "status": {
+            "Draft": "Draft",
+            "Analytics": "Analytics",
+            "Second Meeting": "Second Meeting",
+            "Media Processing": "Media Processing",
+            "Review": "Review",
+            "Ready to List": "Ready to List",
+            "Listed": "Listed",
+            "Deposit": "Deposit",
+            "Completed": "Closed Won",
+            "Lost": "Closed Lost",
+            "Canceled": "Canceled"
         }
+    },
+    "tooltips": {
+        "cEstimatedMarketPrice": "Calculated based on Market analysis",
+        "price": "Agreed price for advertising the property"
     }
 }
