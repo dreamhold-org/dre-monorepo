@@ -1,0 +1,88 @@
+[
+    {
+        "rows": [
+            [
+                {
+                    "name": "type"
+                },
+                {
+                    "name": "propertyType"
+                }
+            ],
+            [
+                {
+                    "name": "price"
+                },
+                false
+            ]
+        ],
+        "dynamicLogicVisible": null,
+        "style": "default",
+        "dynamicLogicStyled": null,
+        "tabBreak": false,
+        "hidden": false,
+        "noteText": null,
+        "customLabel": "🏠 Overview"
+    },
+    {
+        "rows": [
+            [
+                {
+                    "name": "locations"
+                },
+                false
+            ]
+        ],
+        "dynamicLogicVisible": null,
+        "style": "default",
+        "tabBreak": false,
+        "tabLabel": null,
+        "hidden": false,
+        "noteText": null,
+        "noteStyle": "info",
+        "customLabel": "📍 Address"
+    },
+    {
+        "rows": [
+            [
+                {
+                    "name": "yearBuilt"
+                },
+                {
+                    "name": "square"
+                },
+                {
+                    "name": "cLandLot"
+                }
+            ],
+            [
+                {
+                    "name": "bedroomCount"
+                },
+                {
+                    "name": "bathroomCount"
+                }
+            ],
+            [
+                {
+                    "name": "floor"
+                },
+                {
+                    "name": "floorCount"
+                }
+            ],
+            [
+                {
+                    "name": "description"
+                }
+            ]
+        ],
+        "dynamicLogicVisible": null,
+        "style": "default",
+        "dynamicLogicStyled": null,
+        "tabBreak": false,
+        "hidden": false,
+        "noteText": null,
+        "customLabel": "🧐 Details"
+    }
+]

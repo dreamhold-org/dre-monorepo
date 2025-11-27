@@ -32,6 +32,29 @@
                     }
                 ]
             }
+        },
+        "cCommissionSum": {
+            "readOnly": {
+                "conditionGroup": [
+                    {
+                        "type": "isNotEmpty",
+                        "attribute": "cCommissionPercent"
+                    }
+                ]
+            }
+        },
+        "address": {
+            "visible": {
+                "conditionGroup": [
+                    {
+                        "type": "isNotEmpty",
+                        "attribute": "locationId",
+                        "data": {
+                            "field": "location"
+                        }
+                    }
+                ]
+            }
         }
     }
 }

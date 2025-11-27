@@ -27,7 +27,9 @@
                 "Sale": null
             },
             "default": "Sale",
-            "maxLength": 100
+            "maxLength": 100,
+            "required": true,
+            "labelType": "state"
         },
         "type": {
             "options": [
@@ -51,7 +53,10 @@
                 "Retail": null,
                 "Farm": null,
                 "Townhouse": null
-            }
+            },
+            "required": true,
+            "labelType": null,
+            "displayAsLabel": true
         },
         "cCommissionPercent": {
             "notNull": false,
@@ -239,6 +244,19 @@
                 "Completed": "success",
                 "Lost": "danger",
                 "Canceled": "danger"
+            }
+        },
+        "assignedUser": {
+            "required": true
+        },
+        "teams": {
+            "defaultAttributes": {
+                "teamsIds": [
+                    "6928c8490cee285ba"
+                ],
+                "teamsNames": {
+                    "6928c8490cee285ba": "Sales"
+                }
             }
         }
     },
