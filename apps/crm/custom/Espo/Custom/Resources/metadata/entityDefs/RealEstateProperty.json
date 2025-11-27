@@ -226,7 +226,7 @@
                 "Lost",
                 "Canceled"
             ],
-            "default": "Completed",
+            "default": "Draft",
             "style": {
                 "Draft": null,
                 "Analytics": "info",

@@ -55,8 +55,19 @@
                 false
             ]
         ],
-        "dynamicLogicVisible": null,
-        "style": "default",
+        "dynamicLogicVisible": {
+            "conditionGroup": [
+                {
+                    "type": "notIn",
+                    "attribute": "status",
+                    "value": [
+                        "Draft"
+                    ]
+                }
+            ]
+        },
+        "style": "info",
+        "dynamicLogicStyled": null,
         "tabBreak": false,
         "hidden": false,
         "noteText": null,
