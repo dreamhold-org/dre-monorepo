@@ -27,7 +27,11 @@
         "cWindowView": {
             "": "",
             "City View": "City View",
-            "Inner Yard": "Inner Yard"
+            "Inner Yard": "Inner Yard",
+            "Mountain View": "Mountain View",
+            "Pool": "Pool",
+            "Sea View": "Sea View",
+            "Seafront": "Seafront"
         },
         "type": {
             "Apartment": "Apartment",

@@ -7,12 +7,20 @@
             "options": [
                 "",
                 "City View",
-                "Inner Yard"
+                "Inner Yard",
+                "Mountain View",
+                "Pool",
+                "Sea View",
+                "Seafront"
             ],
             "style": {
                 "": null,
                 "City View": null,
-                "Inner Yard": null
+                "Inner Yard": null,
+                "Mountain View": null,
+                "Pool": null,
+                "Sea View": null,
+                "Seafront": null
             },
             "isCustom": true
         },
