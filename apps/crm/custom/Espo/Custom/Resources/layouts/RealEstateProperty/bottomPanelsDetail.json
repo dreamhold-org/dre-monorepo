@@ -1,0 +1,18 @@
+{
+    "_delimiter_": {
+        "disabled": true
+    },
+    "matchingRequests": {
+        "disabled": true
+    },
+    "stream": {
+        "sticked": false,
+        "index": 0
+    },
+    "opportunities": {
+        "index": 1
+    },
+    "documents": {
+        "index": 2
+    }
+}
