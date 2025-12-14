@@ -1,6 +1,6 @@
 # EspoCRM Deployment
 
-Production-ready Docker Compose deployment of EspoCRM with PostgreSQL, Traefik reverse proxy, automated backups, and real-time WebSocket support.
+Production-ready Docker Compose deployment of EspoCRM with MariaDB, Traefik reverse proxy, automated backups, and real-time WebSocket support.
 
 **Environment Support:** This deployment supports separate development and production environments with isolated databases and backups.
 
@@ -8,9 +8,9 @@ Production-ready Docker Compose deployment of EspoCRM with PostgreSQL, Traefik r
 
 This deployment provides a complete EspoCRM installation with:
 - **EspoCRM** - Open-source CRM platform
-- **PostgreSQL 18** - Relational database with health checks
+- **MariaDB** - Relational database with health checks
 - **Traefik** - Reverse proxy with automatic HTTPS (Let's Encrypt)
-- **Automated Backups** - PostgreSQL backups every 2 hours
+- **Automated Backups** - Database backups every hour
 - **WebSocket Support** - Real-time notifications and updates
 - **Custom Extensions** - Persistent customization directory
 - **Environment Isolation** - Separate dev and prod databases, volumes, and backups
@@ -22,8 +22,8 @@ This deployment provides a complete EspoCRM installation with:
 | Service | Purpose | Image | Restart Policy |
 |---------|---------|-------|----------------|
 | `traefik` | Reverse proxy, SSL termination | `traefik:latest` | always |
-| `postgres` | Database server | `postgres:18` | always |
-| `postgres-backup` | Automated database backups | Custom build | unless-stopped |
+| `mariadb` | Database server | `mariadb:latest` | always |
+| `mysql-backup` | Automated database backups | Custom build | unless-stopped |
 | `espocrm` | Main CRM application | `espocrm/espocrm:latest` | always |
 | `espocrm-daemon` | Background job processor | `espocrm/espocrm:latest` | always |
 | `espocrm-websocket` | Real-time WebSocket server | `espocrm/espocrm:latest` | always |
@@ -32,7 +32,7 @@ This deployment provides a complete EspoCRM installation with:
 ### Volumes
 
 **Environment-Specific Volumes:**
-- `postgres_data_dev` / `postgres_data_prod` - Persistent PostgreSQL database storage per environment
+- `mariadb_data_dev` / `mariadb_data_prod` - Persistent MariaDB database storage per environment
 - `espocrm_data_dev` / `espocrm_data_prod` - Persistent EspoCRM application files per environment
 
 **Shared Volumes:**
@@ -50,7 +50,7 @@ Internet → Traefik (ports 80/443)
               ↓
     ┌────────┴────────┐
     ↓                 ↓
-PostgreSQL     EspoCRM Daemon
+ MariaDB       EspoCRM Daemon
     ↑                 ↓
     └──── Backups  WebSocket
 ```
@@ -67,7 +67,7 @@ PostgreSQL     EspoCRM Daemon
 
 This deployment supports running **separate development and production environments simultaneously** on the same server. Each environment has:
 
-- **Isolated Database**: `postgres-dev` and `postgres-prod` containers with separate data volumes
+- **Isolated Database**: `mariadb-dev` and `mariadb-prod` containers with separate data volumes
 - **Isolated Application**: `espocrm-dev` and `espocrm-prod` containers with separate data volumes
 - **Isolated Backups**: `dev-backups/` and `prod-backups/` directories
 - **Separate Container Names**: All services are suffixed with environment name
@@ -78,7 +78,7 @@ This deployment supports running **separate development and production environme
 ```bash
 docker compose --env-file .env up -d
 # Uses ENVIRONMENT=dev
-# Creates: postgres-dev, espocrm-dev, postgres-backup-dev, etc.
+# Creates: mariadb-dev, espocrm-dev, mysql-backup-dev, etc.
 # Backups go to: ./dev-backups/
 ```
 
@@ -86,7 +86,7 @@ docker compose --env-file .env up -d
 ```bash
 docker compose --env-file .env.prod up -d
 # Uses ENVIRONMENT=prod
-# Creates: postgres-prod, espocrm-prod, postgres-backup-prod, etc.
+# Creates: mariadb-prod, espocrm-prod, mysql-backup-prod, etc.
 # Backups go to: ./prod-backups/
 ```
 
@@ -123,10 +123,11 @@ Edit `.env` with your settings:
 # Environment (dev or prod)
 ENVIRONMENT=dev
 
-# Database Configuration
-POSTGRES_USER=espocrm
-POSTGRES_PASSWORD=localpass
-POSTGRES_DB=espocrm
+# Database Configuration (MariaDB)
+MARIADB_ROOT_PASSWORD=root_localpass
+MARIADB_DATABASE=espocrm
+MARIADB_USER=espocrm
+MARIADB_PASSWORD=localpass
 
 # EspoCRM Admin Credentials
 ESPOCRM_ADMIN_USERNAME=admin
@@ -156,10 +157,11 @@ Edit `.env.prod` with your production settings:
 # Environment (dev or prod)
 ENVIRONMENT=prod
 
-# Database Configuration - USE STRONG PASSWORDS
-POSTGRES_USER=pguser
-POSTGRES_PASSWORD=YOUR_STRONG_PASSWORD_HERE
-POSTGRES_DB=pg_dbname
+# Database Configuration (MariaDB) - USE STRONG PASSWORDS
+MARIADB_ROOT_PASSWORD=YOUR_STRONG_ROOT_PASSWORD
+MARIADB_DATABASE=espocrm
+MARIADB_USER=espocrm
+MARIADB_PASSWORD=YOUR_STRONG_PASSWORD_HERE
 
 # EspoCRM Admin Credentials - USE STRONG PASSWORDS
 ESPOCRM_ADMIN_USERNAME=admin
@@ -235,11 +237,11 @@ docker compose ps
    ```
    All services should show "Up" status.
 
-2. **Wait for PostgreSQL health check:**
+2. **Wait for MariaDB health check:**
    ```bash
-   docker compose logs postgres
+   docker compose logs mariadb
    ```
-   Look for: "database system is ready to accept connections"
+   Look for: "ready for connections"
 
 3. **Access EspoCRM:**
    - Development: `https://crm-dev.starosten.com`
@@ -284,9 +286,10 @@ sudo ufw enable
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `POSTGRES_USER` | PostgreSQL username | `espocrm` or `pguser` |
-| `POSTGRES_PASSWORD` | PostgreSQL password | Strong password |
-| `POSTGRES_DB` | Database name | `espocrm` |
+| `MARIADB_ROOT_PASSWORD` | MariaDB root password | Strong password |
+| `MARIADB_DATABASE` | Database name | `espocrm` |
+| `MARIADB_USER` | MariaDB username | `espocrm` |
+| `MARIADB_PASSWORD` | MariaDB password | Strong password |
 
 ### EspoCRM Variables
 
@@ -319,7 +322,7 @@ sudo ufw enable
 
 ### Automated Backups
 
-The `postgres-backup` service automatically backs up the database every 2 hours for each environment.
+The `mysql-backup` service automatically backs up the database every hour for each environment.
 
 **Backup locations (environment-specific):**
 - Development: `./dev-backups/`
@@ -330,10 +333,10 @@ The `postgres-backup` service automatically backs up the database every 2 hours 
 **View backup logs:**
 ```bash
 # Development
-docker compose --env-file .env logs postgres-backup-dev
+docker compose --env-file .env logs mysql-backup-dev
 
 # Production
-docker compose --env-file .env.prod logs postgres-backup-prod
+docker compose --env-file .env.prod logs mysql-backup-prod
 ```
 
 **List backups:**
@@ -351,12 +354,12 @@ Create an immediate backup before maintenance:
 
 **Development environment:**
 ```bash
-docker compose --env-file .env run --rm -e MANUAL_BACKUP=1 postgres-backup
+docker compose --env-file .env run --rm -e MANUAL_BACKUP=1 mysql-backup
 ```
 
 **Production environment:**
 ```bash
-docker compose --env-file .env.prod run --rm -e MANUAL_BACKUP=1 postgres-backup
+docker compose --env-file .env.prod run --rm -e MANUAL_BACKUP=1 mysql-backup
 ```
 
 Backups are created in the environment-specific directories (`dev-backups/` or `prod-backups/`).
@@ -377,7 +380,7 @@ Backups are created in the environment-specific directories (`dev-backups/` or `
 
    # Restore (replace BACKUP_FILE with your file)
    gunzip -c dev-backups/BACKUP_FILE.sql.gz | \
-     docker compose --env-file .env exec -T postgres-dev psql -U $POSTGRES_USER -d $POSTGRES_DB
+     docker compose --env-file .env exec -T mariadb-dev mysql -u $MARIADB_USER -p$MARIADB_PASSWORD $MARIADB_DATABASE
    ```
 
 3. **Restart services:**
@@ -399,7 +402,7 @@ Backups are created in the environment-specific directories (`dev-backups/` or `
 
    # Restore (replace BACKUP_FILE with your file)
    gunzip -c prod-backups/BACKUP_FILE.sql.gz | \
-     docker compose --env-file .env.prod exec -T postgres-prod psql -U $POSTGRES_USER -d $POSTGRES_DB
+     docker compose --env-file .env.prod exec -T mariadb-prod mysql -u $MARIADB_USER -p$MARIADB_PASSWORD $MARIADB_DATABASE
    ```
 
 3. **Restart services:**
@@ -470,7 +473,7 @@ docker compose logs -f
 
 # Specific service
 docker compose logs -f espocrm
-docker compose logs -f postgres
+docker compose logs -f mariadb
 docker compose logs -f traefik
 
 # Last 100 lines
@@ -515,14 +518,14 @@ docker compose up -d traefik
 ### Database Maintenance
 
 ```bash
-# Connect to PostgreSQL
-docker compose exec postgres psql -U $POSTGRES_USER -d $POSTGRES_DB
+# Connect to MariaDB
+docker compose exec mariadb mysql -u $MARIADB_USER -p$MARIADB_PASSWORD $MARIADB_DATABASE
 
-# Run vacuum (database optimization)
-docker compose exec postgres psql -U $POSTGRES_USER -d $POSTGRES_DB -c "VACUUM ANALYZE;"
+# Optimize tables
+docker compose exec mariadb mysqlcheck -u $MARIADB_USER -p$MARIADB_PASSWORD --optimize $MARIADB_DATABASE
 
 # Check database size
-docker compose exec postgres psql -U $POSTGRES_USER -d $POSTGRES_DB -c "SELECT pg_size_pretty(pg_database_size('$POSTGRES_DB'));"
+docker compose exec mariadb mysql -u $MARIADB_USER -p$MARIADB_PASSWORD -e "SELECT table_schema AS 'Database', ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS 'Size (MB)' FROM information_schema.tables GROUP BY table_schema;"
 ```
 
 ### Clear EspoCRM Cache
@@ -555,7 +558,7 @@ docker compose logs traefik | grep espocrm
 ```
 
 **Common issues:**
-- PostgreSQL not healthy: Wait for health check to pass
+- MariaDB not healthy: Wait for health check to pass
 - DNS not pointing to server: Check DNS with `dig crm.starosten.com` or `dig crm-dev.starosten.com`
 - Firewall blocking ports: Check with `sudo ufw status`
 
@@ -589,37 +592,37 @@ docker compose logs -f traefik
 
 ### Database Connection Issues
 
-**Check PostgreSQL health:**
+**Check MariaDB health:**
 ```bash
-docker compose exec postgres pg_isready -U $POSTGRES_USER
+docker compose exec mariadb mysqladmin ping -u $MARIADB_USER -p$MARIADB_PASSWORD
 ```
 
 **Verify credentials:**
 ```bash
 # Check environment variables
-docker compose exec espocrm env | grep POSTGRES
+docker compose exec espocrm env | grep DATABASE
 ```
 
 **Reset database connection:**
 ```bash
-docker compose restart postgres espocrm
+docker compose restart mariadb espocrm
 ```
 
 ### Backup Service Not Running
 
 **Check backup logs:**
 ```bash
-docker compose logs postgres-backup
+docker compose logs mysql-backup
 ```
 
 **Test manual backup:**
 ```bash
-docker compose run --rm -e MANUAL_BACKUP=1 postgres-backup
+docker compose run --rm -e MANUAL_BACKUP=1 mysql-backup
 ```
 
 **Verify backup directory permissions:**
 ```bash
-ls -la backups/
+ls -la dev-backups/
 # Should be writable
 ```
 
@@ -670,7 +673,8 @@ docker volume prune
 ### 1. Strong Passwords
 
 Always use strong passwords for:
-- `POSTGRES_PASSWORD` - Database access
+- `MARIADB_PASSWORD` - Database access
+- `MARIADB_ROOT_PASSWORD` - Database root access
 - `ESPOCRM_ADMIN_PASSWORD` - CRM admin access
 
 Generate strong passwords:
@@ -737,19 +741,19 @@ docker compose logs traefik | grep -i certificate
 
 ### 7. Database Access
 
-PostgreSQL is not exposed externally by default. To access remotely:
-- Use SSH tunnel: `ssh -L 5432:localhost:5432 user@server`
-- Never expose PostgreSQL port directly to internet
+MariaDB is not exposed externally by default. To access remotely:
+- Use SSH tunnel: `ssh -L 3306:localhost:3306 user@server`
+- Never expose MariaDB port directly to internet
 
 ### 8. Backup Security
 
 Backups contain sensitive data:
 ```bash
 # Restrict backup directory
-chmod 700 backups/
+chmod 700 dev-backups/ prod-backups/
 
 # Consider encrypting backups
-gpg --encrypt backups/db_YYYYMMDD_HHMMSS.sql.gz
+gpg --encrypt dev-backups/db_YYYYMMDD_HHMMSS.sql.gz
 ```
 
 ## Additional Resources
@@ -757,7 +761,7 @@ gpg --encrypt backups/db_YYYYMMDD_HHMMSS.sql.gz
 - [EspoCRM Documentation](https://docs.espocrm.com/)
 - [EspoCRM Docker Hub](https://hub.docker.com/r/espocrm/espocrm)
 - [Traefik Documentation](https://doc.traefik.io/traefik/)
-- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [MariaDB Documentation](https://mariadb.com/kb/en/documentation/)
 
 ## Support
 

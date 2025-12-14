@@ -39,42 +39,44 @@ services:
     restart: always
 
   # ========================
-  # PostgreSQL Database (environment-specific)
+  # MariaDB Database (environment-specific)
   # ========================
-  postgres:
-    image: postgres:18
-    container_name: postgres-${ENVIRONMENT:-dev}
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb-${ENVIRONMENT:-dev}
+    command: --max-allowed-packet=64MB
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     volumes:
-      - postgres_data_${ENVIRONMENT:-dev}:/var/lib/postgresql
+      - mariadb_data_${ENVIRONMENT:-dev}:/var/lib/mysql
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 20s
       timeout: 10s
-      retries: 5
+      retries: 3
       start_period: 10s
 
-  postgres-backup:
+  mysql-backup:
     build:
-      context: ./postgres-backup
+      context: ./mysql-backup
       dockerfile: Dockerfile
-    container_name: postgres-backup-${ENVIRONMENT:-dev}
+    container_name: mysql-backup-${ENVIRONMENT:-dev}
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_HOST: postgres-${ENVIRONMENT:-dev}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_HOST: mariadb-${ENVIRONMENT:-dev}
       ENVIRONMENT: ${ENVIRONMENT:-dev}
       MANUAL_BACKUP: ${MANUAL_BACKUP:-0} # 1 для ручного бэкапа
     volumes:
       - ./${ENVIRONMENT:-dev}-backups:/backups # папка на хосте для дампов
     restart: unless-stopped
     depends_on:
-      - postgres
+      - mariadb
 
   # ========================
   # EspoCRM Web (environment-specific)
@@ -83,11 +85,10 @@ services:
     image: espocrm/espocrm:latest
     container_name: espocrm-${ENVIRONMENT:-dev}
     environment:
-      ESPOCRM_DATABASE_PLATFORM: Postgresql
-      ESPOCRM_DATABASE_HOST: postgres-${ENVIRONMENT:-dev}
-      ESPOCRM_DATABASE_USER: ${POSTGRES_USER}
-      ESPOCRM_DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
-      ESPOCRM_DATABASE_NAME: ${POSTGRES_DB}
+      ESPOCRM_DATABASE_HOST: mariadb-${ENVIRONMENT:-dev}
+      ESPOCRM_DATABASE_USER: ${MARIADB_USER}
+      ESPOCRM_DATABASE_PASSWORD: ${MARIADB_PASSWORD}
+      ESPOCRM_DATABASE_NAME: ${MARIADB_DATABASE}
       ESPOCRM_ADMIN_USERNAME: ${ESPOCRM_ADMIN_USERNAME}
       ESPOCRM_ADMIN_PASSWORD: ${ESPOCRM_ADMIN_PASSWORD}
       ESPOCRM_SITE_URL: https://${ESPOCRM_SITE_URL}
@@ -95,7 +96,7 @@ services:
       - ./custom:/var/www/html/custom
       - espocrm_data_${ENVIRONMENT:-dev}:/var/www/html
     depends_on:
-      postgres:
+      mariadb:
         condition: service_healthy
     restart: always
     labels:
@@ -147,7 +148,7 @@ services:
       - traefik.http.routers.whoami.tls.certresolver=myresolver
 
 volumes:
-  postgres_data_dev:
-  postgres_data_prod:
+  mariadb_data_dev:
+  mariadb_data_prod:
   espocrm_data_dev:
   espocrm_data_prod:

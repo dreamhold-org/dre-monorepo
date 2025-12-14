@@ -1,5 +1,5 @@
-# Используем PostgreSQL 18 (Debian-based)
-FROM postgres:18
+# Используем MariaDB (содержит mysqldump)
+FROM mariadb:latest
 
 # Устанавливаем cron и утилиты
 RUN apt-get update && \
