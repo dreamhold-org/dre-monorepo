@@ -1,0 +1,35 @@
+[
+    {
+        "name": "description",
+        "width": 16,
+        "link": true,
+        "align": "left"
+    },
+    {
+        "name": "name",
+        "link": true
+    },
+    {
+        "name": "status",
+        "width": 15,
+        "align": "left"
+    },
+    {
+        "name": "requestType",
+        "width": 14,
+        "align": "left"
+    },
+    {
+        "name": "type",
+        "width": 14,
+        "align": "left"
+    },
+    {
+        "name": "assignedUser",
+        "width": 15
+    },
+    {
+        "name": "matchingRequestCount",
+        "width": 12
+    }
+]

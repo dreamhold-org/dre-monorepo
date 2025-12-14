@@ -1,0 +1,19 @@
+[
+    {
+        "name": "type"
+    },
+    {
+        "name": "description",
+        "link": true,
+        "align": "left"
+    },
+    {
+        "name": "cOwnerAskingPrice",
+        "align": "left",
+        "isMuted": true
+    },
+    {
+        "name": "price",
+        "align": "right"
+    }
+]

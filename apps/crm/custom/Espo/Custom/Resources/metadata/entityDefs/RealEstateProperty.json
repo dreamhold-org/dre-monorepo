@@ -7,12 +7,20 @@
             "options": [
                 "",
                 "City View",
-                "Inner Yard"
+                "Inner Yard",
+                "Mountain View",
+                "Pool",
+                "Sea View",
+                "Seafront"
             ],
             "style": {
                 "": null,
                 "City View": null,
-                "Inner Yard": null
+                "Inner Yard": null,
+                "Mountain View": null,
+                "Pool": null,
+                "Sea View": null,
+                "Seafront": null
             },
             "isCustom": true
         },
@@ -27,7 +35,9 @@
                 "Sale": null
             },
             "default": "Sale",
-            "maxLength": 100
+            "maxLength": 100,
+            "required": true,
+            "labelType": "state"
         },
         "type": {
             "options": [
@@ -51,7 +61,10 @@
                 "Retail": null,
                 "Farm": null,
                 "Townhouse": null
-            }
+            },
+            "required": true,
+            "labelType": null,
+            "displayAsLabel": true
         },
         "cCommissionPercent": {
             "notNull": false,
@@ -90,6 +103,252 @@
             "rowsMin": 2,
             "cutHeight": 200,
             "isCustom": true
+        },
+        "bedroomCount": {
+            "isMatching": true
+        },
+        "bathroomCount": {
+            "isMatching": true
+        },
+        "floor": {
+            "isMatching": true
+        },
+        "floorCount": {
+            "isMatching": true
+        },
+        "yearBuilt": {
+            "isMatching": true
+        },
+        "square": {
+            "isMatching": true
+        },
+        "cLandLot": {
+            "notNull": false,
+            "type": "float",
+            "isCustom": true,
+            "isMatching": true
+        },
+        "cComplexName": {
+            "type": "varchar",
+            "maxLength": 100,
+            "options": [],
+            "isCustom": true
+        },
+        "cFlatNumber": {
+            "type": "varchar",
+            "maxLength": 100,
+            "options": [],
+            "isCustom": true
+        },
+        "cExternalFeatures": {
+            "type": "multiEnum",
+            "storeArrayValues": true,
+            "default": [],
+            "options": [
+                "Garage",
+                "Garden",
+                "Private Pool",
+                "Shared Pool",
+                "Security Cam",
+                "Terrace",
+                "Barbecue",
+                "Generator",
+                "Elevator",
+                "Parking",
+                "Playground",
+                "Sports Ground",
+                "Gym"
+            ],
+            "style": {
+                "Garage": null,
+                "Garden": null,
+                "Private Pool": null,
+                "Shared Pool": null,
+                "Security Cam": null,
+                "Terrace": null,
+                "Barbecue": null,
+                "Generator": null,
+                "Elevator": null,
+                "Parking": null,
+                "Playground": null,
+                "Sports Ground": null,
+                "Gym": null
+            },
+            "isCustom": true
+        },
+        "cInternalFeatures": {
+            "type": "multiEnum",
+            "storeArrayValues": true,
+            "default": [],
+            "options": [
+                "Air Conditioner",
+                "Balcony",
+                "Bath",
+                "Fireplace",
+                "Intercom",
+                "Terrace",
+                "Wardrobe"
+            ],
+            "style": {
+                "Air Conditioner": null,
+                "Balcony": null,
+                "Bath": null,
+                "Fireplace": null,
+                "Intercom": null,
+                "Terrace": null,
+                "Wardrobe": null
+            },
+            "isCustom": true
+        },
+        "cFurnitured": {
+            "notNull": true,
+            "type": "bool",
+            "isCustom": true
+        },
+        "cWhiteGoods": {
+            "notNull": true,
+            "type": "bool",
+            "isCustom": true
+        },
+        "cOwnerAskingPrice": {
+            "type": "currency",
+            "audited": true,
+            "isCustom": true
+        },
+        "cEstimatedMarketPrice": {
+            "type": "currency",
+            "audited": true,
+            "tooltip": true,
+            "isCustom": true
+        },
+        "price": {
+            "audited": true,
+            "tooltip": true
+        },
+        "status": {
+            "options": [
+                "Draft",
+                "Analytics",
+                "Second Meeting",
+                "Media Processing",
+                "Review",
+                "Ready to List",
+                "Listed",
+                "Deposit",
+                "Completed",
+                "Lost",
+                "Canceled"
+            ],
+            "default": "Draft",
+            "style": {
+                "Draft": null,
+                "Analytics": "info",
+                "Second Meeting": "info",
+                "Media Processing": "info",
+                "Review": "warning",
+                "Ready to List": "warning",
+                "Listed": "primary",
+                "Deposit": "success",
+                "Completed": "success",
+                "Lost": "danger",
+                "Canceled": "danger"
+            }
+        },
+        "assignedUser": {
+            "required": true
+        },
+        "teams": {
+            "defaultAttributes": {
+                "teamsIds": [
+                    "6928c8490cee285ba"
+                ],
+                "teamsNames": {
+                    "6928c8490cee285ba": "Sales"
+                }
+            }
         }
-    }
+    },
+    "propertyTypes": {
+        "Apartment": {
+            "fieldList": [
+                "bedroomCount",
+                "bathroomCount",
+                "floor",
+                "floorCount",
+                "yearBuilt",
+                "square"
+            ]
+        },
+        "Separate House": {
+            "fieldList": [
+                "bedroomCount",
+                "bathroomCount",
+                "floorCount",
+                "yearBuilt",
+                "square",
+                "cLandLot"
+            ]
+        },
+        "Room": {
+            "fieldList": [
+                "floor",
+                "yearBuilt",
+                "square"
+            ]
+        },
+        "Land Lot": {
+            "fieldList": [
+                "square"
+            ]
+        },
+        "Office": {
+            "fieldList": [
+                "floor",
+                "floorCount",
+                "yearBuilt",
+                "square"
+            ]
+        },
+        "Warehouse": {
+            "fieldList": [
+                "yearBuilt",
+                "square"
+            ]
+        },
+        "Retail": {
+            "fieldList": [
+                "yearBuilt",
+                "square"
+            ]
+        },
+        "Farm": {
+            "fieldList": [
+                "yearBuilt",
+                "square"
+            ]
+        },
+        "Townhouse": {
+            "fieldList": [
+                "bedroomCount",
+                "bathroomCount",
+                "floorCount",
+                "yearBuilt",
+                "square",
+                "cLandLot"
+            ]
+        }
+    },
+    "collection": {
+        "orderBy": "createdAt",
+        "order": "desc",
+        "textFilterFields": [
+            "name",
+            "addressCity",
+            "addressStreet",
+            "description"
+        ],
+        "fullTextSearch": false,
+        "countDisabled": false
+    },
+    "optimisticConcurrencyControl": false
 }

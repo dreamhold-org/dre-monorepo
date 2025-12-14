@@ -13,6 +13,14 @@
             ],
             [
                 {
+                    "name": "cOwnerAskingPrice"
+                },
+                false,
+                false,
+                false
+            ],
+            [
+                {
                     "name": "price"
                 },
                 false,
@@ -28,22 +36,6 @@
                 {
                     "name": "cCommissionComment"
                 }
-            ],
-            [
-                {
-                    "name": "location"
-                },
-                {
-                    "name": "account"
-                }
-            ],
-            [
-                {
-                    "name": "address"
-                },
-                {
-                    "name": "contacts"
-                }
             ]
         ],
         "dynamicLogicVisible": null,
@@ -53,6 +45,34 @@
         "hidden": false,
         "noteText": null,
         "customLabel": "🏠 Overview"
+    },
+    {
+        "rows": [
+            [
+                {
+                    "name": "cEstimatedMarketPrice"
+                },
+                false
+            ]
+        ],
+        "dynamicLogicVisible": {
+            "conditionGroup": [
+                {
+                    "type": "notIn",
+                    "attribute": "status",
+                    "value": [
+                        "Draft"
+                    ]
+                }
+            ]
+        },
+        "style": "info",
+        "dynamicLogicStyled": null,
+        "tabBreak": false,
+        "hidden": false,
+        "noteText": null,
+        "noteStyle": "info",
+        "customLabel": "📈 Market Analytics"
     },
     {
         "rows": [
@@ -74,8 +94,12 @@
     {
         "rows": [
             [
-                false,
-                false
+                {
+                    "name": "location"
+                },
+                {
+                    "name": "address"
+                }
             ]
         ],
         "dynamicLogicVisible": null,
@@ -91,13 +115,30 @@
         "rows": [
             [
                 {
+                    "name": "addressMap"
+                }
+            ]
+        ],
+        "dynamicLogicVisible": null,
+        "style": "default",
+        "dynamicLogicStyled": null,
+        "tabBreak": false,
+        "hidden": false,
+        "noteText": null,
+        "customLabel": "🗺️ Map"
+    },
+    {
+        "rows": [
+            [
+                {
                     "name": "yearBuilt"
                 },
                 {
                     "name": "square"
                 },
-                false,
-                false
+                {
+                    "name": "cLandLot"
+                }
             ],
             [
                 {
@@ -137,8 +178,23 @@
     {
         "rows": [
             [
-                false,
-                false
+                {
+                    "name": "cWindowView"
+                },
+                {
+                    "name": "cExternalFeatures"
+                }
+            ],
+            [
+                {
+                    "name": "cInternalFeatures"
+                },
+                {
+                    "name": "cFurnitured"
+                },
+                {
+                    "name": "cWhiteGoods"
+                }
             ]
         ],
         "dynamicLogicVisible": null,
@@ -149,21 +205,5 @@
         "noteText": null,
         "noteStyle": "info",
         "customLabel": "✨ Features"
-    },
-    {
-        "rows": [
-            [
-                {
-                    "name": "addressMap"
-                }
-            ]
-        ],
-        "dynamicLogicVisible": null,
-        "style": "default",
-        "dynamicLogicStyled": null,
-        "tabBreak": false,
-        "hidden": false,
-        "noteText": null,
-        "customLabel": "🗺️ Map"
     }
 ]

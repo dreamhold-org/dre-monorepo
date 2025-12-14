@@ -4,5 +4,10 @@
             "Rent": "Rent",
             "Sale": "Sale"
         }
+    },
+    "fields": {
+        "cLandLot": "Land Lot",
+        "fromCLandLot": "Min Land Lot",
+        "toCLandLot": "Max Land Lot"
     }
 }

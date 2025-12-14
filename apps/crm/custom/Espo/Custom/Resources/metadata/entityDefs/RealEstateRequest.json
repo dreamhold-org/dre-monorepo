@@ -8,7 +8,22 @@
             "style": {
                 "Rent": null,
                 "Sale": null
-            }
+            },
+            "required": true,
+            "default": "Sale"
+        },
+        "fromCLandLot": {
+            "type": "float"
+        },
+        "toCLandLot": {
+            "type": "float"
+        },
+        "cLandLot": {
+            "type": "rangeFloat"
+        },
+        "propertyType": {
+            "default": null,
+            "required": true
         }
     }
 }

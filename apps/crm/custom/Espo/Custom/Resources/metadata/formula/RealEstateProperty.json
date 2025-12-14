@@ -1,0 +1,3 @@
+{
+    "beforeSaveCustomScript": "cCommissionSum = price * cCommissionPercent / 100;"
+}
