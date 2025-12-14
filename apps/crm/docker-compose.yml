@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   # ========================
   # Traefik Reverse Proxy (общий)
@@ -132,6 +130,13 @@ services:
       - espocrm_data_${ENVIRONMENT:-dev}:/var/www/html
     restart: always
     entrypoint: docker-websocket.sh
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.espocrm-ws-${ENVIRONMENT:-dev}.rule=Host(`${ESPOCRM_SITE_URL}`) && PathPrefix(`/ws`)
+      - traefik.http.routers.espocrm-ws-${ENVIRONMENT:-dev}.entrypoints=websecure
+      - traefik.http.routers.espocrm-ws-${ENVIRONMENT:-dev}.tls=true
+      - traefik.http.routers.espocrm-ws-${ENVIRONMENT:-dev}.tls.certresolver=myresolver
+      - traefik.http.services.espocrm-ws-${ENVIRONMENT:-dev}.loadbalancer.server.port=8080
 
   # ========================
   # Whoami (debug) - профиль local
