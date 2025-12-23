@@ -13,6 +13,17 @@
             ],
             [
                 {
+                    "name": "cHeader"
+                },
+                {
+                    "name": "cHeaderRU"
+                },
+                {
+                    "name": "cHeaderTR"
+                }
+            ],
+            [
+                {
                     "name": "cOwnerAskingPrice"
                 },
                 false,
@@ -163,7 +174,20 @@
             ],
             [
                 {
+                    "name": "cDescriptionRU"
+                }
+            ],
+            [
+                {
+                    "name": "cDescriptionTR"
+                }
+            ],
+            [
+                {
                     "name": "images"
+                },
+                {
+                    "name": "cVideo"
                 }
             ]
         ],

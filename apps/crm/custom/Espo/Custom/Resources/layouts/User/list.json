@@ -1,0 +1,22 @@
+[
+    {
+        "name": "name",
+        "link": true
+    },
+    {
+        "name": "userName",
+        "width": 20
+    },
+    {
+        "name": "defaultTeam",
+        "width": 16
+    },
+    {
+        "name": "emailAddress",
+        "width": 20
+    },
+    {
+        "name": "isActive",
+        "width": 10
+    }
+]

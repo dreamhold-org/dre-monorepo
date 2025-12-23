@@ -3,7 +3,7 @@
         "name": "type"
     },
     {
-        "name": "description",
+        "name": "cHeader",
         "link": true,
         "align": "left"
     },
@@ -15,5 +15,10 @@
     {
         "name": "price",
         "align": "right"
+    },
+    {
+        "name": "assignedUser",
+        "align": "right",
+        "isMuted": true
     }
 ]

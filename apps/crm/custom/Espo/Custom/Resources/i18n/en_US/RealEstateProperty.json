@@ -21,7 +21,14 @@
         "cOwnerAskingPriceConverted": "Owner Asking Price (Converted)",
         "cEstimatedMarketPrice": "Estimated Market Price",
         "cEstimatedMarketPriceCurrency": "Estimated Market Price (Currency)",
-        "cEstimatedMarketPriceConverted": "Estimated Market Price (Converted)"
+        "cEstimatedMarketPriceConverted": "Estimated Market Price (Converted)",
+        "cVideo": "Video URL",
+        "cHeader": "Short title",
+        "cHeaderTR": "Short title (TR)",
+        "cHeaderRU": "Short title (RU)",
+        "cDescriptionTR": "Description (TR)",
+        "cDescriptionRU": "Description (RU)",
+        "number": "ID"
     },
     "options": {
         "cWindowView": {
@@ -91,6 +98,7 @@
     },
     "tooltips": {
         "cEstimatedMarketPrice": "Calculated based on Market analysis",
-        "price": "Agreed price for advertising the property"
+        "price": "Agreed price for advertising the property",
+        "cHeader": "Title for Property cards and for publishing on classified listing websites.\nRecommended length: ~70 characters."
     }
 }

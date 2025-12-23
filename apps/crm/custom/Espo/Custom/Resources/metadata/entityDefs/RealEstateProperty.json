@@ -258,14 +258,48 @@
             "required": true
         },
         "teams": {
-            "defaultAttributes": {
-                "teamsIds": [
-                    "6928c8490cee285ba"
-                ],
-                "teamsNames": {
-                    "6928c8490cee285ba": "Sales"
-                }
-            }
+            "defaultAttributes": null
+        },
+        "cVideo": {
+            "type": "url",
+            "strip": true,
+            "isCustom": true
+        },
+        "cHeader": {
+            "type": "text",
+            "required": true,
+            "rowsMin": 2,
+            "cutHeight": 60,
+            "isCustom": true,
+            "maxLength": 200,
+            "rows": null,
+            "tooltip": true
+        },
+        "cHeaderTR": {
+            "type": "text",
+            "rowsMin": 2,
+            "cutHeight": 60,
+            "maxLength": 200,
+            "isCustom": true
+        },
+        "cHeaderRU": {
+            "type": "text",
+            "rowsMin": 2,
+            "cutHeight": 60,
+            "maxLength": 200,
+            "isCustom": true
+        },
+        "cDescriptionTR": {
+            "type": "text",
+            "rowsMin": 2,
+            "cutHeight": 100,
+            "isCustom": true
+        },
+        "cDescriptionRU": {
+            "type": "text",
+            "rowsMin": 2,
+            "cutHeight": 200,
+            "isCustom": true
         }
     },
     "propertyTypes": {

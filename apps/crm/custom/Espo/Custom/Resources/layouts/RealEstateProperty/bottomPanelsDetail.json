@@ -3,16 +3,16 @@
         "disabled": true
     },
     "matchingRequests": {
-        "disabled": true
+        "index": 0
     },
     "stream": {
         "sticked": false,
-        "index": 0
-    },
-    "opportunities": {
         "index": 1
     },
-    "documents": {
+    "opportunities": {
         "index": 2
+    },
+    "documents": {
+        "index": 3
     }
 }
