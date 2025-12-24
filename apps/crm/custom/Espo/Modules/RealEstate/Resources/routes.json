@@ -1,5 +1,11 @@
 [
     {
+        "route": "LeadCaptureWix/:apiKey",
+        "method": "post",
+        "actionClassName": "Espo\\Modules\\RealEstate\\Tools\\LeadCapture\\Api\\CaptureFromWix",
+        "noAuth": true
+    },
+    {
         "route": "RealEstateMatchingConfiguration",
         "method": "put",
         "params": {
