@@ -1,26 +1,32 @@
 [
-    {
-        "route": "LeadCaptureWix/:apiKey",
-        "method": "post",
-        "actionClassName": "Espo\\Modules\\RealEstate\\Tools\\LeadCapture\\Api\\CaptureFromWix",
-        "noAuth": true
-    },
-    {
-        "route": "RealEstateMatchingConfiguration",
-        "method": "put",
-        "params": {
-            "controller": "RealEstateMatchingConfiguration",
-            "action": "update"
-        }
-    },
-    {
-        "route": "RealEstateProperty/:id/matchingRequests",
-        "method": "get",
-        "actionClassName": "Espo\\Modules\\RealEstate\\Tools\\Property\\Api\\GetMatchingRequests"
-    },
-    {
-        "route": "RealEstateRequest/:id/matchingProperties",
-        "method": "get",
-        "actionClassName": "Espo\\Modules\\RealEstate\\Tools\\Request\\Api\\GetMatchingProperties"
+  {
+    "route": "LeadCaptureWix/:apiKey",
+    "method": "post",
+    "actionClassName": "Espo\\Modules\\RealEstate\\Tools\\LeadCapture\\Api\\CaptureFromWix",
+    "noAuth": true
+  },
+  {
+    "route": "RealEstateMatchingConfiguration",
+    "method": "put",
+    "params": {
+      "controller": "RealEstateMatchingConfiguration",
+      "action": "update"
     }
+  },
+  {
+    "route": "RealEstateProperty/:id/matchingRequests",
+    "method": "get",
+    "actionClassName": "Espo\\Modules\\RealEstate\\Tools\\Property\\Api\\GetMatchingRequests"
+  },
+  {
+    "route": "RealEstateRequest/:id/matchingProperties",
+    "method": "get",
+    "actionClassName": "Espo\\Modules\\RealEstate\\Tools\\Request\\Api\\GetMatchingProperties"
+  },
+  {
+    "route": "PublicImage/:id",
+    "method": "get",
+    "actionClassName": "Espo\\Modules\\RealEstate\\Tools\\Image\\Api\\GetPublicImage",
+    "noAuth": true
+  }
 ]
