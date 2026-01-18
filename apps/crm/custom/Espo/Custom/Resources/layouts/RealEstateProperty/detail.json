@@ -8,6 +8,14 @@
                 {
                     "name": "type"
                 },
+                {
+                    "name": "contacts"
+                }
+            ],
+            [
+                {
+                    "name": "cTinyHeader"
+                },
                 false,
                 false
             ],
@@ -91,7 +99,12 @@
                 {
                     "name": "cLegalTitle"
                 },
-                false
+                {
+                    "name": "cLegalTitleHolderType"
+                },
+                {
+                    "name": "cOwnershipForm"
+                }
             ]
         ],
         "dynamicLogicVisible": null,
@@ -187,8 +200,14 @@
                     "name": "images"
                 },
                 {
-                    "name": "cVideo"
+                    "name": "cPrimaryImage"
                 }
+            ],
+            [
+                {
+                    "name": "cVideo"
+                },
+                false
             ]
         ],
         "dynamicLogicVisible": null,

@@ -28,7 +28,11 @@
         "cHeaderRU": "Short title (RU)",
         "cDescriptionTR": "Description (TR)",
         "cDescriptionRU": "Description (RU)",
-        "number": "ID"
+        "number": "ID",
+        "cLegalTitleHolderType": "Title Holder",
+        "cOwnershipForm": "Ownership Form",
+        "cTinyHeader": "Tiny Title <=25",
+        "cPrimaryImage": "Primary image"
     },
     "options": {
         "cWindowView": {
@@ -94,11 +98,21 @@
             "Completed": "Closed Won",
             "Lost": "Closed Lost",
             "Canceled": "Canceled"
+        },
+        "cLegalTitleHolderType": {
+            "Individual": "Individual",
+            "Shared": "Shared"
+        },
+        "cOwnershipForm": {
+            "Owner": "Owner",
+            "Developer": "Developer"
         }
     },
     "tooltips": {
         "cEstimatedMarketPrice": "Calculated based on Market analysis",
         "price": "Agreed price for advertising the property",
-        "cHeader": "Title for Property cards and for publishing on classified listing websites.\nRecommended length: ~70 characters."
+        "cHeader": "Title for Property cards and for publishing on classified listing websites.\nRecommended length: ~70 characters.",
+        "cTinyHeader": "Title for Property cards and for publishing on classified listing websites.\nMaximum length: 25 characters.",
+        "cPrimaryImage": "The main image used for listings and property pages."
     }
 }

@@ -300,6 +300,54 @@
             "rowsMin": 2,
             "cutHeight": 200,
             "isCustom": true
+        },
+        "contacts": {
+            "required": true,
+            "createButton": true
+        },
+        "cLegalTitleHolderType": {
+            "type": "enum",
+            "options": [
+                "Individual",
+                "Shared"
+            ],
+            "style": {
+                "Individual": null,
+                "Shared": null
+            },
+            "default": "Individual",
+            "maxLength": 100,
+            "isCustom": true
+        },
+        "cOwnershipForm": {
+            "type": "enum",
+            "options": [
+                "Owner",
+                "Developer"
+            ],
+            "style": {
+                "Owner": null,
+                "Developer": null
+            },
+            "default": "Owner",
+            "displayAsLabel": false,
+            "labelType": null,
+            "maxLength": 100,
+            "isCustom": true
+        },
+        "cTinyHeader": {
+            "type": "text",
+            "required": true,
+            "rowsMin": 2,
+            "maxLength": 25,
+            "tooltip": true,
+            "isCustom": true
+        },
+        "cPrimaryImage": {
+            "type": "image",
+            "previewSize": "medium",
+            "tooltip": true,
+            "isCustom": true
         }
     },
     "propertyTypes": {
@@ -384,5 +432,13 @@
         "fullTextSearch": false,
         "countDisabled": false
     },
-    "optimisticConcurrencyControl": false
+    "optimisticConcurrencyControl": false,
+    "links": {
+        "cPrimaryImage": {
+            "type": "belongsTo",
+            "entity": "Attachment",
+            "skipOrmDefs": true,
+            "utility": true
+        }
+    }
 }
