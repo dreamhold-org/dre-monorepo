@@ -45,19 +45,30 @@ class GetPublicImage implements Action
             throw new NotFound("Image not found.");
         }
 
-        // Разрешаем ТОЛЬКО картинки из RealEstateProperty.images
-        if (
-            $attachment->get("parentType") !== "RealEstateProperty" ||
-            $attachment->get("field") !== "images"
-        ) {
+        // Разрешаем картинки из RealEstateProperty.images и cPrimaryImage
+        $allowedFields = ['images', 'cPrimaryImage'];
+        $field = $attachment->get("field");
+
+        if (!in_array($field, $allowedFields, true)) {
             throw new Forbidden("Access denied.");
         }
 
         /** @var \Espo\Modules\RealEstate\Entities\RealEstateProperty|null $property */
-        $property = $this->entityManager->getEntityById(
-            "RealEstateProperty",
-            $attachment->get("parentId"),
-        );
+        $property = null;
+
+        if ($attachment->get("parentType") === "RealEstateProperty" && $attachment->get("parentId")) {
+            // Для attachmentMultiple (images) — parentId напрямую указывает на Property
+            $property = $this->entityManager->getEntityById(
+                "RealEstateProperty",
+                $attachment->get("parentId"),
+            );
+        } elseif ($field === 'cPrimaryImage') {
+            // Для image (cPrimaryImage) — ищем Property по cPrimaryImageId
+            $property = $this->entityManager
+                ->getRDBRepository("RealEstateProperty")
+                ->where(["cPrimaryImageId" => $id])
+                ->findOne();
+        }
 
         if (!$property) {
             throw new Forbidden("Parent entity not found.");
